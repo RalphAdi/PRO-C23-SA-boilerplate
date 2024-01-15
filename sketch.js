@@ -16,14 +16,15 @@ function setup() {
   canvas = createCanvas(1200, 600);
   engine = Engine.create();
   world = engine.world;
-  angle = 20
+  
+  angleMode(DEGREES);
+  angle = 15;
 
   ground = Bodies.rectangle(0, height - 1, width * 2, 1, { isStatic: true });
   World.add(world, ground);
 
   tower = Bodies.rectangle(160, 350, 160, 310, { isStatic: true });
   World.add(world, tower);
-
   cannon = new Cannon(180, 110, 130, 100, angle);
   cannonBall = new CannonBall(cannon.x, cannon.y);
 }
@@ -34,7 +35,12 @@ function draw() {
 
   Engine.update(engine);
 
+  push();
+  fill("brown");
+  rectMode(CENTER);
   rect(ground.position.x, ground.position.y, width * 2, 1);
+  pop();
+
   push();
   imageMode(CENTER);
   image(towerImage, tower.position.x, tower.position.y, 160, 310);
@@ -45,3 +51,8 @@ function draw() {
 }
 
 
+function keyReleased() {
+  if (keyCode === DOWN_ARROW) {
+    cannonBall.shoot();
+  }
+}
